@@ -55,6 +55,12 @@ def fetch_current_data(current_date):
         print(f"current row {row}")
     cursor.close()
 
+
+def close_connection():
+    if conn:
+        conn.close()
+
+
 def check_tables():
     cursor = conn.cursor()
     if cursor:

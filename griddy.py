@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 from abc import ABC
 import requests
 import sqlite3
@@ -46,6 +48,9 @@ class Griddy(ABC):
             self.std_dev_ckwh, self.price_display, self.price_display_sign, self.date_local_tz)
             logger.info(f"saved data {saved_row}")
 
+    def close(self):
+        db.close_connection()
+
 
 def get_griddy():
     griddly_url = "https://app.gogriddy.com/api/v1/insights/getnow"
@@ -72,3 +77,9 @@ def get_griddy():
     price_display_sign=griddy_data['now']['price_display_sign'],
     date_local_tz=griddy_data['now']['date_local_tz'])
     return current_griddy
+
+
+if __name__ == "__main__":
+    griddy = get_griddy()
+    griddy.save_data()
+    griddy.close()
