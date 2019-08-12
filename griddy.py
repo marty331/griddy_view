@@ -40,7 +40,7 @@ class Griddy(ABC):
         self.price_display_sign = price_display_sign
         self.date_local_tz = date_local_tz
 
-    def logger.info_current_data(self):
+    def print_current_data(self):
         logger.info(f"date {self.date}")
         logger.info(f"price {self.price_display} {self.price_display_sign}")
 
