@@ -28,7 +28,7 @@ def create_table():
         DATE_LOCAL_TZ TEXT NOT NULL
         ); ''')
     except Exception as e:
-        logger.exception(f"create table error {e}")
+        pass
     cursor.close()
 
 
@@ -52,8 +52,11 @@ def fetch_data():
 def fetch_current_data(current_date):
     cursor = conn.cursor()
     for row in cursor.execute("SELECT * FROM PRICES WHERE date=(?)", (current_date,)):
-        print(f"current row {row}")
+        print(f"fetch current data {row}")
+        cursor.close()
+        return True
     cursor.close()
+    return False
 
 
 def close_connection():

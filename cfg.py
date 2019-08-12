@@ -19,4 +19,39 @@ class AutoConfigPlus(AutoConfig):  # pylint: disable=too-many-public-methods
         """
         return self('SETTLEMENT_POINT', "LZ_SOMEWHERE")
 
+    @property
+    def ALERT_STATE_VALUE(self):
+        """
+        ALERT_STATE_VALUE
+        """
+        return self('ALERT_STATE_VALUE', 0.0)
+
+    @property
+    def ACCOUNT_SID(self):
+        """
+        ACCOUNT_SID
+        """
+        return self('ACCOUNT_SID', 'fake_account_sid')
+
+    @property
+    def AUTH_TOKEN(self):
+        """
+        AUTH_TOKEN
+        """
+        return self('AUTH_TOKEN', 'fake_auth_token')
+
+    @property
+    def FROM_NUMBER(self):
+        """
+        FROM_NUMBER
+        """
+        return self('FROM_NUMBER', '8005551212')
+
+    @property
+    def TO_NUMBERS(self):
+        """
+        TO_NUMBERS
+        """
+        return self('TO_NUMBERS', '18005551212,18885551212').split(",")
+
 CFG = AutoConfigPlus()
