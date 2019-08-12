@@ -14,6 +14,12 @@ from datetime import datetime
 
 from cfg import CFG
 
+logging.basicConfig(filename="griddy.log",
+                            filemode='a',
+                            format="%(asctime)s:%(levelname)s:%(message)s",
+                            datefmt='%Y-%m-%d %H:%M:%S',
+                            level=logging.DEBUG)
+
 logger = logging.getLogger(__name__)
 
 class Griddy(ABC):
@@ -34,9 +40,9 @@ class Griddy(ABC):
         self.price_display_sign = price_display_sign
         self.date_local_tz = date_local_tz
 
-    def print_current_data(self):
-        print(f"date {self.date}")
-        print(f"price {self.price_display} {self.price_display_sign}")
+    def logger.info_current_data(self):
+        logger.info(f"date {self.date}")
+        logger.info(f"price {self.price_display} {self.price_display_sign}")
 
     def get_all_data(self):
         db.fetch_data()
@@ -46,17 +52,17 @@ class Griddy(ABC):
 
     def get_current_data(self, date):
         current_data = db.fetch_current_data(date)
-        print(f"current data {current_data}")
+        logger.info(f"current data {current_data}")
         return current_data
 
     def save_data(self):
-        print(f"current row {self.get_current_data(self.date)}")
-        print(f"date {self.date}")
-        print(f"local date {self.date_local_tz}")
+        logger.info(f"current row {self.get_current_data(self.date)}")
+        logger.info(f"date {self.date}")
+        logger.info(f"local date {self.date_local_tz}")
         datetime_object = datetime.strptime(self.date, '%Y-%m-%dT%H:%M:%SZ')
         datetime_object_local = datetime.strptime(self.date_local_tz, '%Y-%m-%dT%H:%M:%S%z')
-        print(f"datetime object {datetime_object}")
-        print(f"datetime local {datetime_object_local}")
+        logger.info(f"datetime object {datetime_object}")
+        logger.info(f"datetime local {datetime_object_local}")
         if not self.get_current_data(self.date):
             send_new_alert = self.alert_send_check()
             if send_new_alert[0]:
@@ -64,22 +70,22 @@ class Griddy(ABC):
             saved_row = db.add_data(datetime_object, self.hour_num, self.min_num, self.settlement_point, self.price_type,
             self.price_ckwh, self.value_score, self.mean_price_ckwh, self.diff_mean_ckwh, self.high_ckwh, self.low_ckwh,
             self.std_dev_ckwh, self.price_display, self.price_display_sign, datetime_object_local)
-            print(f"saved data {saved_row}")
+            logger.info(f"saved data {saved_row}")
         else:
-            print(f"row exists")
+            logger.info(f"row exists")
 
     def alert_send_check(self):
         current_alert_state = alert_state.get_alert_state()
-        print(f"current alert state {current_alert_state}")
+        logger.info(f"current alert state {current_alert_state}")
         if float(self.price_display) >= float(CFG.ALERT_STATE_VALUE):
-            print(f"High Price Alert! {self.price_display} {self.price_display_sign}")
+            logger.info(f"High Price Alert! {self.price_display} {self.price_display_sign}")
             if current_alert_state == 0:
-                print(f"Send High Price alert {current_alert_state}")
+                logger.info(f"Send High Price alert {current_alert_state}")
                 alert_state.change_state(1)
                 return (True, f"Griddy high price alert! {self.price_display} {self.price_display_sign}")
         else:
             if current_alert_state == 1:
-                print(f"Prices lowered alert {current_alert_state}")
+                logger.info(f"Prices lowered alert {current_alert_state}")
                 alert_state.change_state(0)
                 return (True, "Griddy price spike has ended.")
         return (False, None)
@@ -95,7 +101,7 @@ def get_griddy():
     	"settlement_point": CFG.SETTLEMENT_POINT,
     }
     griddy_data = requests.post(griddly_url, json=data).json()
-    print(griddy_data['now']['date'])
+    logger.info(griddy_data['now']['date'])
     current_griddy = Griddy(
     date=griddy_data['now']['date'],
     hour_num=griddy_data['now']['hour_num'],
