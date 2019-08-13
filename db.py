@@ -59,6 +59,12 @@ def fetch_current_data(current_date):
     return False
 
 
+def delete_row_by_id(row_id):
+    cursor = conn.cursor()
+    cursor.execute(f"DELETE FROM PRICES WHERE ROWID={row_id};")
+    cursor.close()
+
+
 def close_connection():
     if conn:
         conn.close()

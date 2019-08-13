@@ -20,6 +20,27 @@ class AutoConfigPlus(AutoConfig):  # pylint: disable=too-many-public-methods
         return self('SETTLEMENT_POINT', "LZ_SOMEWHERE")
 
     @property
+    def METERID(self):
+        """
+        METERID
+        """
+        return self('METERID', '000000')
+
+    @property
+    def COST_PERIOD(self):
+        """
+        COST_PERIOD
+        """
+        return self('COST_PERIOD', '2019-08-01')
+
+    @property
+    def COST_INTERVAL(self):
+        """
+        COST_INTERVAL
+        """
+        return self('COST_INTERVAL', 'monthly')
+
+    @property
     def ALERT_STATE_VALUE(self):
         """
         ALERT_STATE_VALUE

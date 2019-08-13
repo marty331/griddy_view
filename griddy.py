@@ -77,7 +77,9 @@ class Griddy(ABC):
     def alert_send_check(self):
         current_alert_state = alert_state.get_alert_state()
         logger.info(f"current alert state {current_alert_state}")
-        if float(self.price_display) >= float(CFG.ALERT_STATE_VALUE):
+        logger.info(f"current price {float(self.price_ckwh)/100}")
+        logger.info(f"current alert setting {float(CFG.ALERT_STATE_VALUE)/100}")
+        if float(self.price_ckwh)/100 >= float(CFG.ALERT_STATE_VALUE)/100:
             logger.info(f"High Price Alert! {self.price_display} {self.price_display_sign}")
             if current_alert_state == 0:
                 logger.info(f"Send High Price alert {current_alert_state}")
@@ -96,6 +98,12 @@ class Griddy(ABC):
 
 def get_griddy():
     griddly_url = "https://app.gogriddy.com/api/v1/insights/getnow"
+    griddy_usage = "https://app.gogriddy.com/api/v1/analytics/usage"
+    usage_params = {
+        "aggregation":	CFG.COST_INTERVAL,
+        "meterID":	CFG.METERID,
+        "period":	CFG.COST_PERIOD
+    }
 
     data = {
     	"settlement_point": CFG.SETTLEMENT_POINT,
