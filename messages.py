@@ -11,8 +11,8 @@ def send_message(message, numbers):
 
     client = Client(account_sid, auth_token)
     for number in numbers:
-        message = client.messages.create(
+        message_to_send = client.messages.create(
             to="+"+number,
             from_="+"+CFG.FROM_NUMBER,
             body=message)
-        print(message.sid)
+        print(message_to_send.sid)
