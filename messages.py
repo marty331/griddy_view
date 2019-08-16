@@ -1,6 +1,15 @@
+import logging
+
 from twilio.rest import Client
 
 from cfg import CFG
+logging.basicConfig(filename="griddy.log",
+                            filemode='a',
+                            format="%(asctime)s:%(levelname)s:%(message)s",
+                            datefmt='%Y-%m-%d %H:%M:%S',
+                            level=logging.DEBUG)
+
+logger = logging.getLogger(__name__)
 
 
 def send_message(message, numbers):
@@ -11,8 +20,10 @@ def send_message(message, numbers):
 
     client = Client(account_sid, auth_token)
     for number in numbers:
-        message_to_send = client.messages.create(
-            to="+"+number,
-            from_="+"+CFG.FROM_NUMBER,
-            body=message)
-        print(message_to_send.sid)
+        try:
+            client.messages.create(
+                to="+"+number,
+                from_="+"+CFG.FROM_NUMBER,
+                body=message)
+        except Exception as e:
+            logger.error(f"Error sending message: {e}")
