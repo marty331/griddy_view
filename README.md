@@ -7,14 +7,23 @@ I build this application to run on a Raspberry Pi, but it should run on any Linu
 The application requires several configuration values that should be placed in the root of the project in a .env file.  The cfg.py file will read these values and import them into the app.
 
 SETTLEMENT_POINT=<LZ_SOME_AREA>
+
 METERID=<YOUR_METER_NUMBER>
+
 MEMBERID=<YOUR_GRIDDY_ACCOUNT_NUMBER>
+
 ALERT_STATE_VALUE=<YOUR_SPIKE_NUMBER> Example: 12.5
+
 ACCOUNT_SID=<YOUR_TWILIO_ACCOUNT_SID>
+
 AUTH_TOKEN=<YOUR_TWILIO_AUTH_TOKEN>
+
 FROM_NUMBER=<YOUR_TWILIO_SEND_NUMBER>
+
 TO_NUMBERS=<COMMA_SEPERATED_PHONE_NUMBER_LIST> Example: 8005551212,8885551212
+
 COST_PERIOD=2019-08-01  Future Use - Not Required
+
 COST_INTERVAL=monthly Future Use - Not Required
 
 ## Cron Job
